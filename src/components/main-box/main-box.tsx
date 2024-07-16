@@ -15,7 +15,7 @@ export function MainBox() {
 
     return (
         <section id='main'>
-            <h1 id='title'>CONDIÇÃO DO TEMPO</h1>
+            <h1 id='title'>CONDIÇÕES DO TEMPO</h1>
             <form ref={formRef} id='form-content' action="submit">
                 <input ref={inputRef} id='input-form' type="text" placeholder='Digite o nome da cidade...'/>
                 <button>Pesquisar</button>
