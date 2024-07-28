@@ -1,8 +1,11 @@
 import { MainBox } from "./components/main-box/main-box";
+import { ApiContext } from "./context/ApiContext";
 
 function App() {
   return (
-    <MainBox/>
+    <ApiContext>
+      <MainBox/>
+    </ApiContext>
   );
 }
 

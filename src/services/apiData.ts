@@ -1,11 +1,11 @@
-export class ApiResponse {
+export class ApiResponseFormat {
        name: string = ''
        temp: string = ''
        weatherImg: string = ''
 }
 
-export async function ApiData(cityName: string) {
-       const data = new ApiResponse
+export async function ApiData(cityName: string): Promise<ApiResponseFormat | undefined> {
+       const data = new ApiResponseFormat
 
        try {
               const response = await fetch(`https://api.openweathermap.org/data/2.5/weather?q=${cityName}&APPID=11949befd3b0d536fcce214312f4060e&lang=pt_br&units=metric`)

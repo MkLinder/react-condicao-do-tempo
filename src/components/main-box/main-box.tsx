@@ -1,14 +1,17 @@
 import './main-box.css';
-import React, { FormEvent, useRef, useState } from 'react';
-import { ApiData, ApiResponse } from '../../services/apiData';
+import { FormEvent, useContext } from 'react';
+import { ApiData } from '../../services/apiData';
+import { apiContext } from '../../context/ApiContext';
 
 export const MainBox: React.FC = () => {
-    const [ apiResponseData, setApiResponseData ] = useState({} as ApiResponse )
+    const { 
+            apiResponseData, 
+            setApiResponseData,
+            inputRef,
+            submitedInputValueRef 
+    } = useContext(apiContext)
 
-    const submitedInputValueRef = useRef<boolean>(false)
-    const inputRef = useRef<HTMLInputElement>(null)
-
-    const formSubmit = async (event: FormEvent) => {
+    const formSubmit = async (event: FormEvent): Promise<void> => {
         event.preventDefault()
     
         if ( inputRef.current ) {
