@@ -1,25 +1,27 @@
 import './main-box.css';
-import React, { FormEvent, useState } from 'react';
+import React, { FormEvent, useRef, useState } from 'react';
 import { ApiData, ApiResponse } from '../../services/apiData';
 
 export const MainBox: React.FC = () => {
-    const [ inputValue, setInputValue ] = useState("")
     const [ apiResponseData, setApiResponseData ] = useState({} as ApiResponse )
-    let [ submitedInputValue, setSubmitedInputValue ] = useState(false)
 
-    const FormSubmit = async (event: FormEvent) => {
+    const submitedInputValueRef = useRef<boolean>(false)
+    const inputRef = useRef<HTMLInputElement>(null)
+
+    const formSubmit = async (event: FormEvent) => {
         event.preventDefault()
     
-        if ( inputValue.length < 3 ){
-            alert("A cidade deve ter um nome com pelo menos 3 caracteres.")
-            return
-        }
+        if ( inputRef.current ) {
+            if ( inputRef.current.value.length < 3 ){
+                alert("A cidade deve ter um nome com pelo menos 3 caracteres.")
+                return
+            }
+            const apiResponse = await ApiData(inputRef.current.value)
 
-        const apiResponse = await ApiData(inputValue)
-        
-        apiResponse && setApiResponseData(apiResponse)
+            apiResponse && setApiResponseData(apiResponse)
 
-        setSubmitedInputValue(submitedInputValue = true)        
+            submitedInputValueRef.current = true   
+        }            
     }
 
     return (
@@ -28,20 +30,19 @@ export const MainBox: React.FC = () => {
             <form 
                 id='form-content' 
                 action="submit"
-                onSubmit={FormSubmit}
+                onSubmit={formSubmit}
             >
                 <input 
                     id='input-form' 
                     type="text" 
                     placeholder='Digite o nome da cidade...'
-                    value={inputValue}
-                    onChange={(event) => setInputValue(event.target.value)}
+                    ref={inputRef}
                 />
                 <button 
                     type='submit'
                 >Pesquisar</button>
             </form>
-            { submitedInputValue  &&             
+            { submitedInputValueRef.current  &&             
                 <section id="search-result">
                     <div id="loc-temp-content">
                         <p id='loc'>{ apiResponseData.name }</p>
